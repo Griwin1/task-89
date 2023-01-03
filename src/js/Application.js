@@ -10,6 +10,7 @@ export default class Application extends EventEmitter {
   }
 
   progress = document.createElement('progress');
+  _loading = false;
 
   constructor() {
     super();
@@ -38,9 +39,6 @@ export default class Application extends EventEmitter {
     })
 
   };
-
-
-
   _create(name, terrain, population) {
     const box = document.createElement("div");
     box.classList.add("box");
@@ -53,7 +51,7 @@ export default class Application extends EventEmitter {
   }
 
   _startLoading() {
-
+    this._loading = true;
     this.progress.classList.add('progress');
     this.progress.classList.add('is-small');
     this.progress.classList.add('is-primary');
@@ -62,6 +60,7 @@ export default class Application extends EventEmitter {
 
   }
   _stopLoading() {
+    this._loading = false;
     this.progress.style.display = "none";
   }
 
