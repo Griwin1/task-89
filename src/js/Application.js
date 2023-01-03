@@ -55,7 +55,7 @@ export default class Application extends EventEmitter {
   }
   _stopLoading() {
     this._loading = false;
-     document.getElementById("#progress").style.display = "none";
+     document.getElementById("progress").style.display = "none";
   }
 
 
