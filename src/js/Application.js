@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import EventEmitter from "eventemitter3";
 import image from "../images/planet.svg";
 
@@ -8,24 +9,39 @@ export default class Application extends EventEmitter {
     };
   }
 
+  progress = document.createElement('progress');
+
   constructor() {
     super();
     this.emit(Application.events.READY);
   };
   async _load() {
+
     this._startLoading();
-    const res = await fetch('https://swapi.boom.dev/api/planets');
-    const data = await res.json();
-    const planetsData = data.results
-    setTimeout(() => {
-      this._stopLoading();
+
+    const responsesJSON = await Promise.all([
+      fetch('https://swapi.boom.dev/api/planets'),
+      fetch('https://swapi.boom.dev/api/planets?page=2'),
+      fetch('https://swapi.boom.dev/api/planets?page=3'),
+      fetch('https://swapi.boom.dev/api/planets?page=4'),
+      fetch('https://swapi.boom.dev/api/planets?page=5'),
+      fetch('https://swapi.boom.dev/api/planets?page=6'),
+    ]);
+    const allPlanets = await Promise.all(responsesJSON.map(r => r.json()));
+    allPlanets.forEach((data) => {
+      const planetsData = data.results
       planetsData.forEach(planet => {
+
         this._create(planet.name, planet.terrain, planet.population)
       });
-    }, 1500)
+    })
+    setTimeout (()=>{
+      this._stopLoading();
+    }, 1500);
+  };
 
-
-  }
+    
+    
   _create(name, terrain, population) {
     const box = document.createElement("div");
     box.classList.add("box");
@@ -38,11 +54,16 @@ export default class Application extends EventEmitter {
   }
 
   _startLoading() {
-    document.getElementById("progress").style.visibility = "visible"
+
+    this.progress.classList.add('progress');
+    this.progress.classList.add('is-small');
+    this.progress.classList.add('is-primary');
+    this.progress.setAttribute('max', 100);
+    document.body.querySelector('.main').appendChild(this.progress);
 
   }
   _stopLoading() {
-    document.getElementById("progress").style.visibility = "hidden"
+    this.progress.remove()
   }
 
 
