@@ -63,7 +63,7 @@ export default class Application extends EventEmitter {
 
   }
   _stopLoading() {
-    this.progress.remove()
+    this.progress.style.display = "none";
   }
 
 
