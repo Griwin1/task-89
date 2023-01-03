@@ -8,8 +8,6 @@ export default class Application extends EventEmitter {
       READY: "ready",
     };
   }
-
-  progress = document.createElement('progress');
   _loading = false;
 
   constructor() {
@@ -52,16 +50,12 @@ export default class Application extends EventEmitter {
 
   _startLoading() {
     this._loading = true;
-    this.progress.classList.add('progress');
-    this.progress.classList.add('is-small');
-    this.progress.classList.add('is-primary');
-    this.progress.setAttribute('max', 100);
-    document.body.querySelector('.main').appendChild(this.progress);
+    
 
   }
   _stopLoading() {
     this._loading = false;
-    this.progress.style.display = "none";
+     document.getElementById("#progress").style.display = "none";
   }
 
 
