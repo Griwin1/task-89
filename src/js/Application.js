@@ -27,6 +27,7 @@ export default class Application extends EventEmitter {
       fetch('https://swapi.boom.dev/api/planets?page=5'),
       fetch('https://swapi.boom.dev/api/planets?page=6'),
     ]);
+    this._stopLoading();
     const allPlanets = await Promise.all(responsesJSON.map(r => r.json()));
     allPlanets.forEach((data) => {
       const planetsData = data.results
@@ -35,13 +36,11 @@ export default class Application extends EventEmitter {
         this._create(planet.name, planet.terrain, planet.population)
       });
     })
-    setTimeout (()=>{
-      this._stopLoading();
-    }, 1500);
+
   };
 
-    
-    
+
+
   _create(name, terrain, population) {
     const box = document.createElement("div");
     box.classList.add("box");
