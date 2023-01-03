@@ -15,6 +15,7 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
     this.emit(Application.events.READY);
+    this._load();
   };
   async _load() {
 
